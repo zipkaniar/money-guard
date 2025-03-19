@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import ModalAddTransaction from '../ModalAddTransaction/ModalAddTransaction';
-import { addTransaction, getCategories } from '../../redux/transaction/transactionOps';
+import { addTransaction, getCategories, getTransaction } from '../../redux/transaction/transactionOps';
 
 const ButtonAddTransactions = () => {
     const dispatch = useDispatch();
@@ -47,8 +47,13 @@ const ButtonAddTransactions = () => {
                     : `-${transactionData.amount.toString()}`
             };
 
+            // 🔥 1. İşlemi backend'e gönder
+            await dispatch(addTransaction(formattedData)).unwrap();
 
-            const response = await dispatch(addTransaction(formattedData)).unwrap();
+            // 🔥 2. İşlem listesini güncelle
+            await dispatch(getTransaction());
+
+            // 🔥 3. Modalı kapat
             handleCloseModal();
         } catch (error) {
             console.error('Failed to add transaction:', error);

@@ -22,9 +22,12 @@ const Currency = () => {
                 purchase: item.rateBuy,
                 sale: item.rateSell,
             }));
-            dispatch(updateCurrency(formattedData)); // Updating redux state
+            dispatch(updateCurrency(formattedData));
             setCachedData(formattedData);
+
+            // VERİ + ZAMAN kaydediliyor
             localStorage.setItem('currencyData', JSON.stringify(formattedData));
+            localStorage.setItem('currencyTimestamp', new Date().getTime());
         } catch (error) {
             if (error.response && error.response.status === 429) {
                 console.error('Too many requests. Please try again later.');
@@ -36,12 +39,24 @@ const Currency = () => {
 
     useEffect(() => {
         const cachedCurrencyData = localStorage.getItem('currencyData');
-        if (cachedCurrencyData) {
-            setCachedData(JSON.parse(cachedCurrencyData));
+        const cachedTime = localStorage.getItem('currencyTimestamp');
+
+        if (cachedCurrencyData && cachedTime) {
+            const now = new Date().getTime();
+            const diffMinutes = (now - Number(cachedTime)) / (1000 * 60); // dakikaya çevrildi
+
+            if (diffMinutes < 60) {
+                // 1 saatten az geçmiş
+                setCachedData(JSON.parse(cachedCurrencyData));
+            } else {
+                // 1 saatten fazla, yeni veri çek
+                fetchCurrencyData();
+            }
         } else {
+            // Hiç veri yoksa API'den çek
             fetchCurrencyData();
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch]);
 
     useEffect(() => {
@@ -49,19 +64,17 @@ const Currency = () => {
 
         const ctx = chartRef.current.getContext('2d');
 
-        const gradient = ctx.createLinearGradient(0, 0, 0, 250); // Adjust the height (250) to match the chart size
+        const gradient = ctx.createLinearGradient(0, 0, 0, 250);
         gradient.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
         gradient.addColorStop(0.3, 'rgba(255, 255, 255, 0.321875)');
         gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
 
-        // Create a new gradient for the overlay with darker effects towards the bottom
         const overlayGradient = ctx.createLinearGradient(0, 0, 0, 400);
-        overlayGradient.addColorStop(0, 'rgba(57, 0, 150, 0.2)'); // Light at the top
-        overlayGradient.addColorStop(0.8, 'rgba(57, 0, 150, 0.4)'); // Darker but still transparent
-        overlayGradient.addColorStop(1, 'rgba(57, 0, 150, 0.7)'); // Strongest color at the bottom, making it more opaque
+        overlayGradient.addColorStop(0, 'rgba(57, 0, 150, 0.2)');
+        overlayGradient.addColorStop(0.8, 'rgba(57, 0, 150, 0.4)');
+        overlayGradient.addColorStop(1, 'rgba(57, 0, 150, 0.7)');
 
-        // Wave data
-        const waveData = [39, cachedData[0].purchase, 38, cachedData[1].purchase, 40]; // Wave points
+        const waveData = [39, cachedData[0].purchase, 38, cachedData[1].purchase, 40];
 
         const chartData = {
             labels: ['Point 1', 'Point 2', 'Point 3', 'Point 4', 'Point 5'],
@@ -72,17 +85,17 @@ const Currency = () => {
                     borderColor: '#FF6384',
                     backgroundColor: gradient,
                     borderWidth: 3,
-                    tension: 0.4, // Curved line
-                    fill: true,  // Fill below the line
+                    tension: 0.4,
+                    fill: true,
                     pointBackgroundColor: waveData.map((_, index) =>
                         index === 1 || index === 3 ? '#FF6384' : 'transparent'
-                    ), // Only the peaks are visible
+                    ),
                     pointBorderColor: waveData.map((_, index) =>
                         index === 1 || index === 3 ? '#FF6384' : 'white'
                     ),
                     pointRadius: waveData.map((_, index) =>
                         index === 1 || index === 3 ? 5 : 0
-                    ), // Only the peaks have larger radius
+                    ),
                 },
             ],
         };
@@ -93,37 +106,18 @@ const Currency = () => {
             options: {
                 scales: {
                     x: {
-                        ticks: {
-                            display: false,
-                        },
-                        title: {
-                            display: false,
-                        },
-                        grid: {
-                            display: false, // Disable grid lines on the x-axis
-                        },
+                        ticks: { display: false },
+                        grid: { display: false },
                     },
                     y: {
                         min: 35,
                         max: 45,
-                        ticks: {
-                            display: false,
-                        },
-                        title: {
-                            display: false,
-                        },
-                        grid: {
-                            display: false, // Disable grid lines on the y-axis
-                        },
+                        ticks: { display: false },
+                        grid: { display: false },
                     },
                 },
                 plugins: {
-                    legend: {
-                        labels: {
-                            display: false,
-                        },
-                        display: false,
-                    },
+                    legend: { display: false },
                 },
                 responsive: true,
                 maintainAspectRatio: false,
@@ -141,8 +135,8 @@ const Currency = () => {
         <div
             className="rounded-lg p-6 shadow-md mobile:w-full"
             style={{
-                background: 'radial-gradient(circle, #2E225F, #523B7E99)', // Gradyan arka plan
-                boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.2)', // Hafif gölge
+                background: 'radial-gradient(circle, #2E225F, #523B7E99)',
+                boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.2)',
             }}
         >
             <table className="w-full text-left text-white mb-1">
@@ -154,16 +148,17 @@ const Currency = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {cachedData && cachedData.map((item, index) => (
-                        <tr
-                            key={index}
-                            className="hover:bg-[rgba(109,84,235,0.4)]"
-                        >
-                            <td className="py-2 px-4 text-center">{item.name}</td>
-                            <td className="py-2 px-4 text-center">{item.purchase}</td>
-                            <td className="py-2 px-4 text-center">{item.sale}</td>
-                        </tr>
-                    ))}
+                    {cachedData &&
+                        cachedData.map((item, index) => (
+                            <tr
+                                key={index}
+                                className="hover:bg-[rgba(109,84,235,0.4)]"
+                            >
+                                <td className="py-2 px-4 text-center">{item.name}</td>
+                                <td className="py-2 px-4 text-center">{item.purchase}</td>
+                                <td className="py-2 px-4 text-center">{item.sale}</td>
+                            </tr>
+                        ))}
                 </tbody>
             </table>
             <div className="h-auto">

@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./datepicker.css";
-import { useDispatch } from 'react-redux';
-import { getTransaction } from '../../redux/transaction/transactionOps';
 
 const EXPENSE_CATEGORIES = [
     'Main expenses',
@@ -19,7 +17,6 @@ const EXPENSE_CATEGORIES = [
 ];
 
 const AddTransactionForm = ({ onSubmit, onCancel }) => {
-    const dispatch = useDispatch();
     const [isIncome, setIsIncome] = useState(true);
     const [amount, setAmount] = useState('');
     const [date, setDate] = useState(new Date());
@@ -33,15 +30,13 @@ const AddTransactionForm = ({ onSubmit, onCancel }) => {
             amount: parseFloat(amount),
             date: date.toISOString().split('T')[0],
             comment,
-            ...((!isIncome) && { category })
+            ...(!isIncome && { category })
         });
-        dispatch(getTransaction());
     };
-
-    const textColor = isIncome ? 'text-[#ebac44]' : 'text-[#a144b5]';
 
     return (
         <form className="flex flex-col justify-center items-center max-w-[394px] gap-5 w-full" onSubmit={handleSubmit}>
+            {/* Toggle */}
             <div className="flex items-center justify-center gap-8 mb-5">
                 <span className={`text-lg ${isIncome ? 'text-[#ebac44]' : 'text-white/50'}`}>Income</span>
                 <label className="relative inline-block w-[80px] h-[40px]">
@@ -51,8 +46,7 @@ const AddTransactionForm = ({ onSubmit, onCancel }) => {
                         checked={!isIncome}
                         onChange={() => setIsIncome(!isIncome)}
                     />
-                    <span className="absolute cursor-pointer inset-0 rounded-full transition-all duration-400 
-                        bg-white">
+                    <span className="absolute cursor-pointer inset-0 rounded-full transition-all duration-400 bg-white">
                         <span className={`absolute w-[44px] h-[44px] 
                             left-[-2px] top-[-2px] rounded-full 
                             transition-all duration-400 flex items-center justify-center
@@ -69,6 +63,7 @@ const AddTransactionForm = ({ onSubmit, onCancel }) => {
                 <span className={`text-lg ${!isIncome ? 'text-[#a144b5]' : 'text-white/50'}`}>Expense</span>
             </div>
 
+            {/* Category */}
             {!isIncome && (
                 <select
                     value={category}
@@ -91,6 +86,7 @@ const AddTransactionForm = ({ onSubmit, onCancel }) => {
                 </select>
             )}
 
+            {/* Amount & Date */}
             <div className="flex w-full gap-8 mobile:flex-col tablet:flex-row">
                 <div className="flex-1">
                     <input
@@ -113,6 +109,7 @@ const AddTransactionForm = ({ onSubmit, onCancel }) => {
                 </div>
             </div>
 
+            {/* Comment */}
             <input
                 type="text"
                 className={`w-full bg-transparent border-b border-white/30 py-2.5 text-base placeholder:text-white/50 focus:outline-none`}
@@ -122,6 +119,7 @@ const AddTransactionForm = ({ onSubmit, onCancel }) => {
                 required
             />
 
+            {/* Buttons */}
             <div className="flex flex-col gap-2.5 mt-5 w-[300px]">
                 <button
                     type="submit"

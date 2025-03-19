@@ -1,12 +1,23 @@
-# React + Vite
+💰 Money Guard
+Money Guard, kişisel finans takibini kolaylaştırmak için geliştirilmiş, modern tasarıma sahip bir React uygulamasıdır.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+🚀 Özellikler
+Kullanıcı Kaydı ve Girişi (Auth)
+Redux Toolkit ile global state yönetimi
+Form doğrulaması için React Hook Form + Yup
+Tailwind CSS ile responsive tasarım
+React Router ile sayfa yönlendirme
+LocalStorage ile kullanıcı oturumunun korunması
+Şık UI bileşenleri & animasyonlar
+🛠️ Teknolojiler
+React 19
+Vite
+Tailwind CSS
+Redux Toolkit
+React Router DOM
+React Hook Form
+Yup
+Axios
+React Spinners
+React Password Strength Bar
+ESLint & Prettier
