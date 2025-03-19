@@ -1,6 +1,6 @@
-import DashboardTable from '..DashboardPage/DashboardTable';
+import DashboardTable from '../DashboardPage/DashboardTable';
+import Sidebar from '../../components/SideBar/Sidebar';
 import ButtonAddTransactions from '../../components/ButtonAddTransactions/ButtonAddTransactions';
-import Sidebar from '../../components/Sidebar/Sidebar';
 import { Outlet } from 'react-router-dom';
 import Statistics from '../../components/Statistics/Statistics';
 import useMedia from '../../hooks/useMedia';
