@@ -1,4 +1,4 @@
-import DashboardTable from './DashboardTable';
+import DashboardTable from '..DashboardPage/DashboardTable';
 import ButtonAddTransactions from '../../components/ButtonAddTransactions/ButtonAddTransactions';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import { Outlet } from 'react-router-dom';
