@@ -13,7 +13,7 @@ const DashboardPage = lazy(
 );
 const Statistics = lazy(() => import('../components/Statistics/Statistics'));
 const DashBoardTable = lazy(
-    () => import('../pages/DashboardPage/DashBoardTable'),
+    () => import('../pages/DashBoardPage/DashBoardTable'),
 );
 const Currency = lazy(() => import('../components/Currency/Currency'));
 
