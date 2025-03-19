@@ -9,11 +9,11 @@ const RegistrationPage = lazy(
 );
 const LoginPage = lazy(() => import('../pages/LoginPage/LoginPage'));
 const DashboardPage = lazy(
-    () => import('../pages/DashBoardPage/DashboardPage'),
+    () => import('../pages/DashboardPage/DashboardPage'),
 );
 const Statistics = lazy(() => import('../components/Statistics/Statistics'));
 const DashBoardTable = lazy(
-    () => import('../pages/DashBoardPage/DashBoardTable'),
+    () => import('../pages/DashboardPage/DashboardTable'),
 );
 const Currency = lazy(() => import('../components/Currency/Currency'));
 
