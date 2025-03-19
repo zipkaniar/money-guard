@@ -1,4 +1,4 @@
-import DashBoardTable from './DashboardTable';
+import DashboardTable from './DashboardTable';
 import ButtonAddTransactions from '../../components/ButtonAddTransactions/ButtonAddTransactions';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import { Outlet } from 'react-router-dom';
@@ -14,7 +14,7 @@ const DashboardPage = () => {
       </aside>
 
       <div className="flex flex-[1.3] flex-col p-6">
-        {!isMobile && <Statistics /> && <DashBoardTable />}
+        {!isMobile && <Statistics /> && <DashboardTable />}
 
         <div>
           <Outlet />

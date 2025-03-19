@@ -4,7 +4,7 @@ import { getTransaction, deleteTransaction, getCategories } from '../../redux/tr
 import penLogo from "../../assets/svg/pen.svg";
 import ModalEditTransaction from '../../components/ModalEditTransaction/ModalEditTransaction';
 
-const DashBoardTable = () => {
+const DashboardTable = () => {
     const { transactions, error } = useSelector((state) => state.transaction);
     const token = useSelector((state) => state.user.token);
     const dispatch = useDispatch();
@@ -130,4 +130,4 @@ const DashBoardTable = () => {
     );
 };
 
-export default DashBoardTable;
+export default DashboardTable;

@@ -6,7 +6,7 @@ import { MdAttachMoney } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 import Currency from '../../components/Currency/Currency';
 import useMedia from '../../hooks/useMedia';
-import DashBoardTable from '../../pages/DashBoardPage/DashboardTable';
+import DashboardTable from '../../pages/DashboardPage/DashboardTable';
 import Statistics from '../Statistics/Statistics'
 
 const Sidebar = () => {
@@ -39,7 +39,7 @@ const Sidebar = () => {
                 return <Statistics />;
             case 'home':
             default:
-                return <DashBoardTable />;
+                return <DashboardTable />;
         }
     };
 
